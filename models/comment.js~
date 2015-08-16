@@ -1,6 +1,6 @@
 //Deficición do modelo de Comment con validación
 
-module.export=function(sequelize, DataTypes) {
+module.exports = function(sequelize, DataTypes) {
   return sequelize.define(
     'Comment',
     { texto: {

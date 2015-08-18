@@ -4,7 +4,7 @@ var users = { admin: {id:1, username:"admin", password:"1234"},
              };
 
 // Comproba si o usuario está rexistrado en users
-//Si a autentificación falla ou hai erros execútase o callbac(error)
+//Si a autentificación falla ou hai erros, execútase o callback(error)
 exports.autenticar = function (login, password, callback) {
   if (users[login]){
     if (password === users[login].password){

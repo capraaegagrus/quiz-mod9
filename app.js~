@@ -40,7 +40,7 @@ app.use(function (req, res, next){
     console.log("Hora última transacción: "+ req.session.user.hour);
     //Comprobamos si pasaron 2 min dende a última transacción
     if (tempoDendeUltimaTransaccion>120000){ 
-      sessionController.destroy;
+      res.redirect("/logout");
       console.log("Sesión destruida");
     }
     //Gardamos a hora da última transacción

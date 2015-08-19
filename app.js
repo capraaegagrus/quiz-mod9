@@ -29,6 +29,20 @@ app.use(session());
 app.use(methodOverride('_method'));
 app.use(express.static(path.join(__dirname, 'public')));
 
+
+
+//Helpers dinámicos:
+app.use(function (req, res, next){
+  //gardar path en session.redir para despois de login
+  if (!req.path.match(/\/login|\/logout/)){
+    req.session.redir = req.path;
+  }
+
+  //Facer visible req.session nas vistas
+  res.locals.session = req.session;
+  next();
+});
+
 //Auto log-out
 app.use(function (req, res, next){
   //Comprobamos si existe a sesión
@@ -46,18 +60,6 @@ app.use(function (req, res, next){
     //Gardamos a hora da última transacción
     req.session.user.hour=horaActual;
   }
-  next();
-});
-
-//Helpers dinámicos:
-app.use(function (req, res, next){
-  //gardar path en session.redir para despois de login
-  if (!req.path.match(/\/login|\/logout/)){
-    req.session.redir = req.path;
-  }
-
-  //Facer visible req.session nas vistas
-  res.locals.session = req.session;
   next();
 });
 

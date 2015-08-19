@@ -52,9 +52,10 @@ app.use(function (req, res, next){
     var tempoDendeUltimaTransaccion = horaActual-req.session.user.hour;
     console.log("Hora actual: "+horaActual);
     console.log("Hora última transacción: "+ req.session.user.hour);
-    //Comprobamos si pasaron 2 min dende a última transacción
+    
     //Gardamos a hora da última transacción
     req.session.user.hour=horaActual;
+    //Comprobamos si pasaron 2 min dende a última transacción
     if (tempoDendeUltimaTransaccion>120000){ 
       res.redirect("/logout");
       console.log("Sesión destruida");

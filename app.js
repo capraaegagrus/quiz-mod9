@@ -29,25 +29,7 @@ app.use(session());
 app.use(methodOverride('_method'));
 app.use(express.static(path.join(__dirname, 'public')));
 
-//Auto log-out
-app.use(function (req, res, next){
-  //Comprobamos si existe a sesión
-  if (req.session.user) {
-    var horaActual= new Date().getTime();
-    //Calculamos o tempo transcurrido dende a última transacción (ms)
-    var tempoDendeUltimaTransaccion = horaActual-req.session.user.hour;
-    console.log("Hora actual: "+horaActual);
-    console.log("Hora última transacción: "+ req.session.user.hour);
-    //Comprobamos si pasaron 2 min dende a última transacción
-    if (tempoDendeUltimaTransaccion>120000){ 
-      res.redirect("/logout");
-      console.log("Sesión destruida");
-    }
-    //Gardamos a hora da última transacción
-    req.session.user.hour=horaActual;
-  }
-  next();
-});
+
 
 //Helpers dinámicos:
 app.use(function (req, res, next){
@@ -58,6 +40,28 @@ app.use(function (req, res, next){
 
   //Facer visible req.session nas vistas
   res.locals.session = req.session;
+  next();
+});
+
+//Auto log-out
+app.use(function (req, res, next){
+  //Comprobamos si existe a sesión
+  if (req.session.user) {
+    var horaActual= new Date().getTime();
+    //Calculamos o tempo transcurrido dende a última transacción (ms)
+    var tempoDendeUltimaTransaccion = horaActual-req.session.user.hour;
+    console.log("Hora actual: "+horaActual);
+    console.log("Hora última transacción: "+ req.session.user.hour);
+    //Comprobamos si pasaron 2 min dende a última transacción
+    //Gardamos a hora da última transacción
+    req.session.user.hour=horaActual;
+    if (tempoDendeUltimaTransaccion>120000){ 
+      res.redirect("/logout");
+      console.log("Sesión destruida");
+    }
+    
+    
+  }
   next();
 });
 
